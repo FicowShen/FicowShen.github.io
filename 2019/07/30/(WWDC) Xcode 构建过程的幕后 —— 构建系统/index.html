@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Ficow Shen">
+    <meta name="keyword" content="Ficow Shen">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        (WWDC) Xcode 构建过程的幕后 —— 构建系统 - Ficow Shen的博客 | Ficow Shen&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Fly in the code world! </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="/img/favicon.ico" />
+        </div>
+        <div class="name">
+            <i>Ficow Shen</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>SEARCH</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#内容概览"><span class="toc-text">内容概览</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#构建系统"><span class="toc-text">构建系统</span></a>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> Fly in the code world! </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        (WWDC) Xcode 构建过程的幕后 —— 构建系统
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2019-07-30 21:24:24</span></span>
+        
+        <span class="attr">Tags：/
+        
+        <a class="tag" href="/tags/#iOS" title="iOS">iOS</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#Xcode" title="Xcode">Xcode</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <p>&nbsp;</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1306450-72f9fe4fdaf39a2f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<p>Xcode 10 中全新的构建系统完全采用 Swift 编写而成， 提供了更好的性能和稳定性。</p>
+<p>&nbsp;</p>
+<p>对于 Xcode 中的构建过程，你是否有过这些疑问？</p>
+<blockquote>
+<p>当你在 Xcode 中按下快捷键  Command + B 时，构建过程如何进行组织？<br>Xcode 如何根据项目中的文件信息来决定构建过程？</p>
+</blockquote>
+<p>&nbsp;<br>接下来，让我们一起进入编译器的国度并深入探索以下内容：</p>
+<ul>
+<li>Clang 和 Swift 如何将源代码构建成 object 文件</li>
+<li>headers 和 modules 如何工作</li>
+<li>编译器如何在代码中寻找声明</li>
+<li>Swift 的编译模型和 C, C++, Objective-C 在本质上的区别</li>
+<li>symbols 是什么，及其如何与我们的源代码进行关联</li>
+<li>为了构建你的应用或者框架，linker 如何将编译器产生的 object 文件黏结在一起并生成可执行文件</li>
+</ul>
+<p>&nbsp;</p>
+<h3 id="内容概览"><a href="#内容概览" class="headerlink" title="内容概览"></a>内容概览</h3><ul>
+<li>构建系统</li>
+<li>Clang 编译器</li>
+<li>Swift</li>
+<li>Linker</li>
+</ul>
+<p>&nbsp;</p>
+<p>我们将使用构建 PetWall App 的过程来作为示例。这个示例将贯穿整个讲解过程。<br>PetWall 是一个用来展示宠物照片的小应用。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1306450-2d6d4e8cc805e299.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<p>&nbsp;&nbsp;<hr></p>
+<h2 id="构建系统"><a href="#构建系统" class="headerlink" title="构建系统"></a>构建系统</h2><p><img src="https://upload-images.jianshu.io/upload_images/1306450-ffe14cb6f397c006.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<p>让我们先来理解什么是构建过程以及构建过程在 Xcode 中构建像 PetWall 这种典型应用时是如何运作的。</p>
+<p>你可以看到项目中有 app target、 一个 framework 、以及用 Swift 和 Objective-C 编写的源代码。或许这看起来就像你自己的项目。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1306450-f88517e93404b76d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<p>你需要编译、链接源代码，还需要复制和处理资源文件，比如：头文件，assets 还有 storyboards。最后还需要对代码进行签名，甚至还要用脚本来做一些自定义的工作，或者为项目构建文档，执行代码检查工具等。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1306450-dcb109aaf77bbaed.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<p>现在，很多构建过程中的工作都需要通过命令行工具来完成。<br>比如：Clang, LD, AC 工具, IB 工具, 代码签名 等等。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1306450-49d3dfc188e97468.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<p>这些工具的执行都需要有具体的参数，而且参数的顺序基于 Xcode 项目的配置。<br>所以，<strong>构建系统所做的工作就是在构建项目时自动组合以及执行这些工具</strong>。<br>由于构建过程可能涉及到超过数以万计的任务，而且任务之间可能有复杂的依赖关系，你绝对不希望自己手动地去执行这些工具。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1306450-d78381d6b69cd8c5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<p>让构建系统来为你做这些琐事吧！</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1306450-055f871fa01fcd43.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<p>现在，让我们来探讨一下构建过程的顺序是如何决定的，以及为什么它很重要。<br>构建任务的顺序取决于任务的依赖信息，任务需要消耗的输入，以及产生的输出。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1306450-9d4fd12cccde76a5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<p>比如一个编译任务需要消耗 PetController。<br>所以需要把 PetController.m 作为输入， 然后输出 object 文件 PetController.o。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1306450-f2656e87debcd417.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<p>类似地，一个链接任务消耗一些在之前的任务中由编译器生成的 object 文件，产出一个可执行文件或者库文件。<br>比如这里的 PetWall 最终会被添加到 app bundle 中。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1306450-efaa82ffac642540.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<p>希望你已经看出来一些规律。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1306450-a9a8bc5eceef64fe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<p>你可以发现依赖信息如何贯穿了整个结构图，并决定了执行顺序。<br>如果你仔细观察编译任务，它们就像公路上的多条车道一样。<br>每个编译任务在自己的车道里是完全独立的，所以就可以被并行地执行。</p>
+<p>因为链接任务将其他所有产出物作为输入，所以它被放到最后来执行。<br>所以，构建系统使用依赖信息来决定任务的执行顺序，以及哪些任务可以并行执行。我们把这叫作 <strong>依赖顺序</strong>。</p>
+<p>&nbsp;</p>
+<blockquote>
+<p>现在，我们已经知道什么是构建过程，让我们来探究一下它是如何工作的。</p>
+</blockquote>
+<p>&nbsp;</p>
+<p>当你选择构建项目时，构建系统会从项目文件中获取构建描述信息。<br>然后，解析项目文件，获取你项目中的所有文件、target 及其依赖关系、build settings，最后把它变成一个树形结构(<strong>有向图</strong>)。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1306450-882b22776ea38aa8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<p>构建系统通过使用有向图来表示项目中的输入文件和输出文件之间的依赖关系以及用来处理这些文件的任务。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1306450-d64d0dd64de901a9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<p>接下来，底层执行引擎(<a href="https://github.com/apple/swift-llbuild" target="_blank" rel="noopener">已在 GitHub 开源的 llbuild</a>) 开始处理这个有向图，查看依赖说明并算出任务执行的顺序以及哪些任务可以并行执行，然后开始执行这些任务。</p>
+<p>通常你的项目不会有太多依赖信息，所以构建系统会在任务的执行过程中去发现更多信息。<br>比如，当 Clang 在编译一个 Objective-C 文件时，它会生成一个你期望的 object 文件。<br>但是它也可以同时生成另一个文件，这个文件中有一个记录了被该原文件包含的所有头文件的列表。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1306450-d06c22692dae24d1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<p>当下一次你再构建时，如果你更新了任何一个被这个源文件包含的头文件，构建系统使用这个文件中的信息来确保这个源文件也被重新编译。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1306450-c047a14d5b573dcc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<p>&nbsp;</p>
+<p>现在，我们已经清楚地知道构建系统的主要工作就是执行任务。<br>当然，项目越大，执行的时间就会越久。<br>所以你肯定不希望每次构建时都执行所有的任务。</p>
+<p>构建系统只会执行有向图中的部分任务，这取决于项目的最新更改与上一次构建之间的差别。<br>我们把这叫作 <strong>增量构建</strong>。准确的依赖信息决定了增量构建是否正确并且高效地运行。</p>
+<p>&nbsp;</p>
+<blockquote>
+<p>现在，我们已经知道改动会影响构建系统，以及改动与增量构建之间的关系。<br>那么，构建系统如何检测到改动呢？</p>
+</blockquote>
+<p>&nbsp;</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1306450-7cebacebb3e4f1f7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<p>&nbsp;</p>
+<ul>
+<li>构建过程中的每个任务都有一个关联的签名，这个签名是根据任务相关的多种信息计算得出的哈希值。</li>
+<li>这些信息包括任务的输入，比如：文件路径、修改时间戳等。还有具体任务的元数据也会被使用，比如：编译器的版本等。生成这个签名的任务由命令行工具来完成。</li>
+<li>构建系统会记录当前构建任务以及前一次构建任务的签名，所以它可以在构建时决定哪些任务需要重新运行。</li>
+<li>如果当前构建任务的签名与前一次构建任务的签名不同，构建系统就会重新运行这个构建任务。如果相同，则跳过。这就是增量构建的基本原理。</li>
+</ul>
+<p>&nbsp;</p>
+<blockquote>
+<p>现在我们已经对构建系统有所了解，那么我们如何帮助构建系统完成它的工作呢？</p>
+</blockquote>
+<p>&nbsp;</p>
+<p>让我们来回顾一下基础部分。<br><strong>一个构建过程就是一系列任务执行的特定顺序。</strong><br>但是请注意，这个构建过程是使用有向图来记录的！</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1306450-425fc1e0a7b78aa6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<p>所以，我们不需要记住任务执行的顺序，那是构建系统而不是我们应该做的事情。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1306450-5b0dcebd98c7415d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<p>相反，作为一个开发者，<strong>我们需要捋清楚任务之间的依赖关系，然后让构建系统根据有向图的结构更好地去执行这些任务</strong>。<br>这可以使构建系统正确地执行任务，并且尽可能充分地利用多核硬件的优势。</p>
+<p>&nbsp;</p>
+<blockquote>
+<p>那么，依赖从何而来？</p>
+</blockquote>
+<p>&nbsp;</p>
+<ul>
+<li>构建系统内部的依赖：<br>对于某些任务，依赖来源于构建系统本身。构建系统内置了编译器、链接器、asset 目录、storyboard 处理器等相关的规则。这些规则定义了什么类型的文件可以作为输入或者输出。</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/1306450-b6a962b914a52b00.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<ul>
+<li>Target 依赖（Target Dependencies）：<br><code>Target 依赖</code> 大致决定了 target 构建的顺序。在某些情况下，构建系统可以并行地构建不同 target 的编译资源。在 Xcode 10 之前，构建一个 target 时首先需要彻底完成这个 target 所依赖的 target 的构建过程。在 Xcode 10 及以后，target 能更早开始构建。这意味着你的编译资源阶段可以更早开始。然而，如果你定义了自定义构建脚本，在这些脚本需要执行结束之后，并行化执行过程才会开始。</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/1306450-57c2ec5ad122cf17.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<ul>
+<li>隐式的依赖：</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/1306450-acca21f655b93f76.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<ul>
+<li>构建阶段（Build Phases）的依赖：<br>构建阶段包括：复制头文件、编译资源、复制 bundle 资源等。<br>这些任务会根据自身所处的阶段的顺序被分组执行。如果构建系统对构建阶段全面知晓，它可以忽略这个顺序。需要注意的是，错误的构建阶段顺序会导致构建问题或失败。所以你要确保自己理解依赖，确定构建阶段的顺序是正确的。</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/1306450-ae0e2546c3dccb90.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<ul>
+<li>Scheme 顺序依赖：<br>如果你为 scheme 开启了并行构建（parallelize build），你将获得更好的构建性能，而且 scheme 中的 target 构建顺序也不再重要。这个选项是默认开启的。<br>然而，如果你关闭了这个选项，Xcode 会根据 target 的顺序依次进行构建。<code>Target 依赖</code> 可以优先决定哪些 target 先被构建。除此之外，Xcode 会按照顺序进行构建。<br>推荐开启并行构建，并且正确设置 <code>Target 依赖</code>。</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/1306450-4f68eddb1ef6d4a6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<ul>
+<li>自定义任务：<br>如果需要在构建阶段运行自定义的脚本或者规则，需要定义输入和输出。这样可以避免构建系统重复运行没必要的脚本任务。</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/1306450-d1e8cceb3fef1c7d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1306450-2592159050a4a324.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<ul>
+<li>target 依赖自动链接<br>不要依赖自动链接，这个设置项允许编译器在没有显式链接你的库的构建阶段的情况下去链接所有你已经导入的库。值得注意的是，<strong>自动链接不会构建系统的层级中建立库的依赖</strong>。所以它<strong>不保证你依赖的 target 在你链接前就已经构建完成</strong>。所以你应该只对系统提供的库开启这个选项，比如： Foundation, UIKit 等。因为我们知道它们在我们构建项目之前就已经存在。对于你的项目中的 target，要确保添加显式的库依赖。甚至你还有可能需要通过在 Xcode 中将其他项目拖拽到当前项目中建立项目引用，然后使用其他项目中你所依赖的 target。</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/1306450-fbc3400b99eb54d2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<p>总之，凭借准确的依赖信息，构建系统可以更好地以并行的方式执行你的构建过程，并确保每次构建结果的一致性。从而，帮你节省更多构建时间，让你有更多时间去进行开发。</p>
+<p>想加速你的构建过程以及充分利用多核硬件的优势？<br>通过 <a href="https://developer.apple.com/videos/play/wwdc2018/408/" target="_blank" rel="noopener">《Building Faster in Xcode Session》</a> 了解更多内容吧！</p>
+<p>&nbsp;&nbsp;<hr><br>参考内容：<br><a href="https://developer.apple.com/videos/play/wwdc2018/415/" target="_blank" rel="noopener">Behind the Scenes of the Xcode Build Process</a></p>
+<p>&nbsp;&nbsp;<br>转载请注明<a href="https://www.jianshu.com/users/ec2c88cb3dd9/timeline" target="_blank" rel="noopener">出处</a>，谢谢~</p>
+
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/FicowShen">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://www.linkedin.com/in/ficowshen">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-linkedin"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+    </ul>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+</html>
