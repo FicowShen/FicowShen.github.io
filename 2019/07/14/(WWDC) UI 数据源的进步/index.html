@@ -145,7 +145,7 @@
 <li>Demos</li>
 <li>注意事项</li>
 </ul>
-<p>&nbsp;&nbsp;<hr></p>
+<p>&nbsp;&nbsp;—</p>
 <h2 id="现状"><a href="#现状" class="headerlink" title="现状"></a>现状</h2><p><img src="https://upload-images.jianshu.io/upload_images/1306450-6fd1373dd32a4a4a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="实现 UICollectionViewDataSource 协议中的方法"></p>
 <p>UICollectionViewDataSource 简单、灵活，但这也致使应用变得复杂。<br>使用 UICollectionViewDataSource 时，通常需要 Controller 来维护 UI 数据。</p>
 <p>&nbsp;</p>
@@ -159,7 +159,7 @@
 <li>目前的方法容易导致错误</li>
 <li>没有集中的事实</li>
 </ul>
-<p>&nbsp;&nbsp;<hr></p>
+<p>&nbsp;&nbsp;—</p>
 <h2 id="新方法"><a href="#新方法" class="headerlink" title="新方法"></a>新方法</h2><p><strong>Diffable Data Source</strong></p>
 <p><img src="https://upload-images.jianshu.io/upload_images/1306450-0e115f0b9c196b13.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
 <p><code>performBatchUpdates()</code> 方法复杂、繁琐而且易导致崩溃<br><code>apply()</code> 方法简单而且可以自动辨别更新</p>
@@ -177,11 +177,11 @@
 <p>苹果提供的相关类型：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 集中的数据源</span></span><br><span class="line"><span class="type">UICollectionViewDiffableDataSource</span></span><br><span class="line"><span class="type">UITableViewDiffableDataSource</span></span><br><span class="line"><span class="type">NSCollectionViewDiffableDataSource</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 数据源快照</span></span><br><span class="line"><span class="type">NSDiffableDataSourceSnapshot</span></span><br></pre></td></tr></table></figure>
 
-<p>&nbsp;&nbsp;<hr></p>
+<p>&nbsp;&nbsp;—</p>
 <h2 id="Demos"><a href="#Demos" class="headerlink" title="Demos"></a>Demos</h2><p>点击下载 <strong><a href="https://docs-assets.developer.apple.com/published/d0d0b4a91e/UsingCollectionViewCompositionalLayoutsAndDiffableDataSources.zip" target="_blank" rel="noopener">官方 Demo</a></strong></p>
 <p>下载后，解压。然后使用 <code>Xcode 11</code> 打开。</p>
 <p><img src="https://upload-images.jianshu.io/upload_images/1306450-f0b418e1504830e6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="只需要关注 Diffable 部分"></p>
-<p>&nbsp;&nbsp;<hr></p>
+<p>&nbsp;&nbsp;—</p>
 <h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>&nbsp;</p>
 <p>更新数据源时：</p>
 <ul>
@@ -230,7 +230,8 @@
 <li>自动配置动画</li>
 <li>易用、高效而且稳健</li>
 </ul>
-<p>&nbsp;&nbsp;<hr><br>参考内容：<br><a href="https://developer.apple.com/videos/play/wwdc2019/220/" target="_blank" rel="noopener">Advances in UI Data Sources</a></p>
+<p>&nbsp;&nbsp;—</p>
+<p>参考内容：<br><a href="https://developer.apple.com/videos/play/wwdc2019/220/" target="_blank" rel="noopener">Advances in UI Data Sources</a></p>
 <p>&nbsp;&nbsp;<br>转载请注明<a href="https://www.jianshu.com/users/ec2c88cb3dd9/timeline" target="_blank" rel="noopener">出处</a>，谢谢~</p>
 
         

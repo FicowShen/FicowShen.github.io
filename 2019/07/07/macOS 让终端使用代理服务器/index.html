@@ -11,7 +11,7 @@
 
     <title>
         
-        Tags - Ficow Shen的博客 | Ficow Shen&#39;s Blog
+        macOS 让终端使用代理服务器 - Ficow Shen的博客 | Ficow Shen&#39;s Blog
         
     </title>
 
@@ -59,7 +59,7 @@
                     <span>HOME</span>
                 </a>
             </li>
-            <li  class=active >
+            <li >
                 <a href="/tags">
                     <i class="iconfont icon-biaoqian1"></i>
                     <span>TAGS</span>
@@ -88,6 +88,10 @@
         </ul>
     </div>
     
+        <div id="toc" class="toc-article">
+    
+</div>
+    
 </div>
 
 
@@ -111,96 +115,50 @@
     
     <div class="index-middle">
         <!-- Main Content -->
-        <div id='tag_cloud' class="tags">
-    
-    <a href="#iOS" title="iOS" rel="2">iOS</a>
-    
-    <a href="#macOS" title="macOS" rel="1">macOS</a>
-    
-    <a href="#Xcode" title="Xcode" rel="1">Xcode</a>
-    
-</div>
-
-<!-- 标签列表 -->
+        
 
 
-<div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="iOS">
-                    <span class="tag-text">iOS</span>
-                </span>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/2019/07/14/(WWDC) UI 数据源的进步/">
-            <h2 class="post-title">
-                (WWDC) UI 数据源的进步
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+<div class="post-container">
+    <div class="post-title">
+        macOS 让终端使用代理服务器
     </div>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/2019/07/30/(WWDC) Xcode 构建过程的幕后 —— 构建系统/">
-            <h2 class="post-title">
-                (WWDC) Xcode 构建过程的幕后 —— 构建系统
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-</div>
 
-<div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="macOS">
-                    <span class="tag-text">macOS</span>
-                </span>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/2019/07/07/macOS 让终端使用代理服务器/">
-            <h2 class="post-title">
-                macOS 让终端使用代理服务器
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    <div class="post-meta">
+        <span class="attr">Post：<span>2019-07-07 20:24:24</span></span>
+        
+        <span class="attr">Tags：/
+        
+        <a class="tag" href="/tags/#macOS" title="macOS">macOS</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
     </div>
-    
-</div>
+    <div class="post-content no-indent">
+        <p>&nbsp;</p>
+<p>打开终端，直接执行命令进行配置。(执行后，只对当前终端起作用)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> http_proxy=socks5://127.0.0.1:1080 <span class="comment"># 配置 http 代理</span></span><br><span class="line"><span class="built_in">unset</span> http_proxy  <span class="comment"># 取消 http 代理</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> https_proxy=socks5://127.0.0.1:1080 <span class="comment"># 配置 https 代理</span></span><br><span class="line"><span class="built_in">unset</span> https_proxy <span class="comment"># 取消 https 代理</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> all_proxy=http://172.1.0.17:3228 <span class="comment"># 配置 http 和 https 代理</span></span><br><span class="line"><span class="built_in">unset</span> all_proxy <span class="comment"># 取消 http 和 https 代理</span></span><br></pre></td></tr></table></figure>
 
-<div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="Xcode">
-                    <span class="tag-text">Xcode</span>
-                </span>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/2019/07/30/(WWDC) Xcode 构建过程的幕后 —— 构建系统/">
-            <h2 class="post-title">
-                (WWDC) Xcode 构建过程的幕后 —— 构建系统
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+<p>请注意，<code>socks5</code> 为 Shadowsocks 使用的协议。<br>请根据个人需要，选择不同的协议。</p>
+<p>&nbsp;&nbsp;</p>
+<p>参考文章：<br><a href="https://blog.csdn.net/jiajiayouba/article/details/81453398" target="_blank" rel="noopener">MAC 终端走代理服务器</a></p>
+<p>感谢原文作者！</p>
+<p>&nbsp;&nbsp;<br>转载请注明<a href="http://blog.ficow.cn" target="_blank" rel="noopener">出处</a>，谢谢~</p>
+
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
     </div>
-    
 </div>
-
 
     </div>
 </div>
@@ -256,7 +214,7 @@
     // We expose some of the variables needed by the front end
     window.hexo_search_path = "search.json"
     window.hexo_root = "/"
-    window.isPost = false
+    window.isPost = true
 </script>
 <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 <script src="/js/index.js"></script>
