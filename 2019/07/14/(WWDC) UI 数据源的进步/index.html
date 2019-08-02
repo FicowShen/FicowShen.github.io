@@ -89,7 +89,7 @@
     </div>
     
         <div id="toc" class="toc-article">
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#内容概览"><span class="toc-text">内容概览</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#现状"><span class="toc-text">现状</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#新方法"><span class="toc-text">新方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Demos"><span class="toc-text">Demos</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注意事项"><span class="toc-text">注意事项</span></a>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#内容概览"><span class="toc-text">内容概览</span></a></li></ol>
 </div>
     
 </div>
@@ -145,8 +145,12 @@
 <li>Demos</li>
 <li>注意事项</li>
 </ul>
-<p>&nbsp;&nbsp;—</p>
-<h2 id="现状"><a href="#现状" class="headerlink" title="现状"></a>现状</h2><p><img src="https://upload-images.jianshu.io/upload_images/1306450-6fd1373dd32a4a4a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="实现 UICollectionViewDataSource 协议中的方法"></p>
+<p>&nbsp;&nbsp;</p>
+<hr>
+## 现状
+
+
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMzA2NDUwLTZmZDEzNzNkZDMyYTRhNGEucG5n" alt="实现 UICollectionViewDataSource 协议中的方法"></p>
 <p>UICollectionViewDataSource 简单、灵活，但这也致使应用变得复杂。<br>使用 UICollectionViewDataSource 时，通常需要 Controller 来维护 UI 数据。</p>
 <p>&nbsp;</p>
 <p>更新 UI 可能会遭遇一些问题，比如：</p>
@@ -159,9 +163,13 @@
 <li>目前的方法容易导致错误</li>
 <li>没有集中的事实</li>
 </ul>
-<p>&nbsp;&nbsp;—</p>
-<h2 id="新方法"><a href="#新方法" class="headerlink" title="新方法"></a>新方法</h2><p><strong>Diffable Data Source</strong></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/1306450-0e115f0b9c196b13.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<p>&nbsp;&nbsp;</p>
+<hr>
+## 新方法
+
+
+<p><strong>Diffable Data Source</strong></p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMzA2NDUwLTBlMTE1ZjBiOWMxOTZiMTMucG5n" alt></p>
 <p><code>performBatchUpdates()</code> 方法复杂、繁琐而且易导致崩溃<br><code>apply()</code> 方法简单而且可以自动辨别更新</p>
 <p>&nbsp;</p>
 <p><strong>Snapshot</strong></p>
@@ -171,18 +179,24 @@
 <li>不再需要依赖 IndexPath</li>
 </ul>
 <p>&nbsp;</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/1306450-62360e5f8714516a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="当前快照"></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/1306450-bf4a7efc3e0854d5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="将新快照应用到旧快照上"></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/1306450-effa204d878c76b9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="最终的快照"></p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMzA2NDUwLTYyMzYwZTVmODcxNDUxNmEucG5n" alt="当前快照"></p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMzA2NDUwLWJmNGE3ZWZjM2UwODU0ZDUucG5n" alt="将新快照应用到旧快照上"></p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMzA2NDUwLWVmZmEyMDRkODc4Yzc2YjkucG5n" alt="最终的快照"></p>
 <p>苹果提供的相关类型：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 集中的数据源</span></span><br><span class="line"><span class="type">UICollectionViewDiffableDataSource</span></span><br><span class="line"><span class="type">UITableViewDiffableDataSource</span></span><br><span class="line"><span class="type">NSCollectionViewDiffableDataSource</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 数据源快照</span></span><br><span class="line"><span class="type">NSDiffableDataSourceSnapshot</span></span><br></pre></td></tr></table></figure>
 
-<p>&nbsp;&nbsp;—</p>
-<h2 id="Demos"><a href="#Demos" class="headerlink" title="Demos"></a>Demos</h2><p>点击下载 <strong><a href="https://docs-assets.developer.apple.com/published/d0d0b4a91e/UsingCollectionViewCompositionalLayoutsAndDiffableDataSources.zip" target="_blank" rel="noopener">官方 Demo</a></strong></p>
+<p>&nbsp;&nbsp;</p>
+<hr>
+## Demos
+
+<p>点击下载 <strong><a href="https://docs-assets.developer.apple.com/published/d0d0b4a91e/UsingCollectionViewCompositionalLayoutsAndDiffableDataSources.zip" target="_blank" rel="noopener">官方 Demo</a></strong></p>
 <p>下载后，解压。然后使用 <code>Xcode 11</code> 打开。</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/1306450-f0b418e1504830e6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="只需要关注 Diffable 部分"></p>
-<p>&nbsp;&nbsp;—</p>
-<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>&nbsp;</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMzA2NDUwLWYwYjQxOGUxNTA0ODMwZTYucG5n" alt="只需要关注 Diffable 部分"></p>
+<p>&nbsp;&nbsp;</p>
+<hr>
+## 注意事项
+
+<p>&nbsp;</p>
 <p>更新数据源时：</p>
 <ul>
 <li>总是使用数据源的 <code>apply()</code> 方法</li>
@@ -193,15 +207,15 @@
 <ul>
 <li>空快照</li>
 </ul>
-<p><img src="https://upload-images.jianshu.io/upload_images/1306450-bdbd9999ad007ae6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMzA2NDUwLWJkYmQ5OTk5YWQwMDdhZTYucG5n" alt></p>
 <ul>
 <li>当前数据源的快照</li>
 </ul>
-<p><img src="https://upload-images.jianshu.io/upload_images/1306450-593f355869a9f7b2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMzA2NDUwLTU5M2YzNTU4NjlhOWY3YjIucG5n" alt></p>
 <p>&nbsp;</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/1306450-9432ae3a929b61c0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="获取快照的状态"></p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMzA2NDUwLTk0MzJhZTNhOTI5YjYxYzAucG5n" alt="获取快照的状态"></p>
 <p>&nbsp;</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/1306450-a91287221dd29422.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="配置快照"></p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMzA2NDUwLWE5MTI4NzIyMWRkMjk0MjIucG5n" alt="配置快照"></p>
 <p>&nbsp;</p>
 <p>标识符需要满足以下条件：</p>
 <ul>
@@ -210,10 +224,10 @@
 <li>使用数据模型或者对象的 ID</li>
 </ul>
 <p>&nbsp;</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/1306450-a686591f9399284a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="自定义标识符 示例"></p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMzA2NDUwLWE2ODY1OTFmOTM5OTI4NGEucG5n" alt="自定义标识符 示例"></p>
 <p>&nbsp;</p>
 <p>如何使用基于 IndexPath 的 API？</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/1306450-0018fa5a4f931c71.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMzA2NDUwLTAwMThmYTVhNGY5MzFjNzEucG5n" alt></p>
 <p>&nbsp;</p>
 <p><strong>关于 <code>apply()</code> 方法：</strong></p>
 <ul>
@@ -222,7 +236,7 @@
 </ul>
 <p>需要注意的是，<strong><em>一旦选择在后台线程执行 apply() 方法，就不能再切换到主线程执行。</em></strong><br>如果有错误发生，系统会对错误进行记录，或者用 assert 中断执行。</p>
 <p>&nbsp;</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/1306450-a5cb79bd6f9c9501.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMzA2NDUwLWE1Y2I3OWJkNmY5Yzk1MDEucG5n" alt></p>
 <p>&nbsp;</p>
 <p>最后，强烈建议使用新方法：</p>
 <ul>
@@ -230,8 +244,13 @@
 <li>自动配置动画</li>
 <li>易用、高效而且稳健</li>
 </ul>
-<p>&nbsp;&nbsp;—</p>
-<p>参考内容：<br><a href="https://developer.apple.com/videos/play/wwdc2019/220/" target="_blank" rel="noopener">Advances in UI Data Sources</a></p>
+<p>&nbsp;&nbsp;</p>
+<hr>
+参考内容：
+[Advances in UI Data Sources](https://developer.apple.com/videos/play/wwdc2019/220/)
+
+
+
 <p>&nbsp;&nbsp;<br>转载请注明<a href="https://www.jianshu.com/users/ec2c88cb3dd9/timeline" target="_blank" rel="noopener">出处</a>，谢谢~</p>
 
         
