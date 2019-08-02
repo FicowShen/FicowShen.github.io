@@ -89,7 +89,7 @@
     </div>
     
         <div id="toc" class="toc-article">
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#内容概览"><span class="toc-text">内容概览</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#内容概览"><span class="toc-text">内容概览</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#现状"><span class="toc-text">现状</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#新方法"><span class="toc-text">新方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Demos"><span class="toc-text">Demos</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注意事项"><span class="toc-text">注意事项</span></a>
 </div>
     
 </div>
@@ -147,10 +147,8 @@
 </ul>
 <p>&nbsp;&nbsp;</p>
 <hr>
-## 现状
 
-
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMzA2NDUwLTZmZDEzNzNkZDMyYTRhNGEucG5n" alt="实现 UICollectionViewDataSource 协议中的方法"></p>
+<h2 id="现状"><a href="#现状" class="headerlink" title="现状"></a>现状</h2><p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMzA2NDUwLTZmZDEzNzNkZDMyYTRhNGEucG5n" alt="实现 UICollectionViewDataSource 协议中的方法"></p>
 <p>UICollectionViewDataSource 简单、灵活，但这也致使应用变得复杂。<br>使用 UICollectionViewDataSource 时，通常需要 Controller 来维护 UI 数据。</p>
 <p>&nbsp;</p>
 <p>更新 UI 可能会遭遇一些问题，比如：</p>
@@ -165,10 +163,8 @@
 </ul>
 <p>&nbsp;&nbsp;</p>
 <hr>
-## 新方法
 
-
-<p><strong>Diffable Data Source</strong></p>
+<h2 id="新方法"><a href="#新方法" class="headerlink" title="新方法"></a>新方法</h2><p><strong>Diffable Data Source</strong></p>
 <p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMzA2NDUwLTBlMTE1ZjBiOWMxOTZiMTMucG5n" alt></p>
 <p><code>performBatchUpdates()</code> 方法复杂、繁琐而且易导致崩溃<br><code>apply()</code> 方法简单而且可以自动辨别更新</p>
 <p>&nbsp;</p>
@@ -187,16 +183,14 @@
 
 <p>&nbsp;&nbsp;</p>
 <hr>
-## Demos
 
-<p>点击下载 <strong><a href="https://docs-assets.developer.apple.com/published/d0d0b4a91e/UsingCollectionViewCompositionalLayoutsAndDiffableDataSources.zip" target="_blank" rel="noopener">官方 Demo</a></strong></p>
+<h2 id="Demos"><a href="#Demos" class="headerlink" title="Demos"></a>Demos</h2><p>点击下载 <strong><a href="https://docs-assets.developer.apple.com/published/d0d0b4a91e/UsingCollectionViewCompositionalLayoutsAndDiffableDataSources.zip" target="_blank" rel="noopener">官方 Demo</a></strong></p>
 <p>下载后，解压。然后使用 <code>Xcode 11</code> 打开。</p>
 <p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMzA2NDUwLWYwYjQxOGUxNTA0ODMwZTYucG5n" alt="只需要关注 Diffable 部分"></p>
 <p>&nbsp;&nbsp;</p>
 <hr>
-## 注意事项
 
-<p>&nbsp;</p>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>&nbsp;</p>
 <p>更新数据源时：</p>
 <ul>
 <li>总是使用数据源的 <code>apply()</code> 方法</li>
@@ -246,11 +240,8 @@
 </ul>
 <p>&nbsp;&nbsp;</p>
 <hr>
-参考内容：
-[Advances in UI Data Sources](https://developer.apple.com/videos/play/wwdc2019/220/)
 
-
-
+<p>参考内容：<br><a href="https://developer.apple.com/videos/play/wwdc2019/220/" target="_blank" rel="noopener">Advances in UI Data Sources</a></p>
 <p>&nbsp;&nbsp;<br>转载请注明<a href="https://www.jianshu.com/users/ec2c88cb3dd9/timeline" target="_blank" rel="noopener">出处</a>，谢谢~</p>
 
         
